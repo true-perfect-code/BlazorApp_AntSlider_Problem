@@ -1,0 +1,61 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<div>
+    <Icon Style="display: inline-block" Type="Frown" Theme="outline" />
+    <Slider TValue="double" Style="display: inline-block; width: 300px;" Min="0" Max="20" DefaultValue="5" />
+    <Icon Style="display: inline-block" Type="Smile" Theme="outline" />
+</div>
+
+
+<div>
+    <Checkbox Indeterminate="@indeterminate" Checked="@checkAll" CheckedChange="@CheckAllChanged">
+        Check all
+    </Checkbox>
+    <br />
+    <AntDesign.CheckboxGroup Options="@ckeckAllOptions" ValueChanged="@OnChanged" />
+</div>
+
+<div>
+    <RadioGroup @bind-Value="@_value">
+        <Radio Value="1">A</Radio>
+        <Radio Value="2">B</Radio>
+        <Radio Value="3">C</Radio>
+        <Radio Value="4">D</Radio>
+    </RadioGroup>
+</div>
+
+@code {
+
+    int _value = 1;
+
+    static CheckboxOption[] ckeckAllOptions = new CheckboxOption[]{
+        new CheckboxOption{ Label="Apple",Value="Apple" ,Checked=true},
+        new CheckboxOption{ Label="Pear", Value="Pear" },
+        new CheckboxOption{ Label="Orange", Value="Orange",Checked=true },
+    };
+
+    void CheckAllChanged()
+    {
+        bool allChecked = checkAll;
+        ckeckAllOptions.ForEach(o => o.Checked = !allChecked);
+    }
+
+    void OnChanged()
+    {
+
+    }
+
+    bool indeterminate => ckeckAllOptions.Count(o => o.Checked) > 0 && ckeckAllOptions.Count(o => o.Checked) < ckeckAllOptions.Count();
+
+    bool checkAll => ckeckAllOptions.All(o => o.Checked);
+
+}
